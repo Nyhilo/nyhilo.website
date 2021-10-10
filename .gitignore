@@ -88,6 +88,9 @@ venv/
 # Add the .env file to the .gitignore file (Don't push it), because it contains private info.
 # Here we are commenting it out, as it is a boiler-plate.
 # .env
+nyhilosite/bin/
+nyhilosite/lib64
+nyhilosite/pyvenv.cfg
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
