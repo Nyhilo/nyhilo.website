@@ -1,1 +1,0 @@
-// Rewriting Wolfram.js for an html canvas, because doing it with fonts is badly non-portable
