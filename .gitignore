@@ -85,9 +85,9 @@ target/
 # pyenv
 .python-version
 venv/
-# Add the .env file to the .gitignore file (Don't push it), because it contains private info.
-# Here we are commenting it out, as it is a boiler-plate.
-# .env
+
+.env
+
 nyhilosite/bin/
 nyhilosite/lib64
 nyhilosite/pyvenv.cfg
@@ -137,8 +137,3 @@ dmypy.json
 
 ## Bitnami ##
 conf/
-
-## Website Configuration ##
-nyhilosite/settings.py
-nyhilosite/wsgi.py
-
