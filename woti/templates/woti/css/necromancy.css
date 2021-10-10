@@ -1,0 +1,318 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    text-align: left;
+}
+
+/* Global */
+
+body {
+    background-color: #F7F5EF;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.border-ui {
+}
+
+.button {
+    background-color: inherit;
+    cursor: pointer;
+    box-shadow: 0 6px #6B6A68;
+    border: 2px solid #333332;
+    border-radius: 10px;
+}
+
+.button:hover {
+    /*background-color: #DEDCD8;*/
+}
+
+.button:active {
+    /*background-color: #DEDCD8;*/
+    box-shadow: 0 3px #6B6A68;
+    transform: translateY(3px);
+}
+
+.button:focus {
+    outline:0;
+}
+
+img.icon {
+    vertical-align: middle;
+    margin-left: 1px;
+    display: inline-block;
+}
+
+div.price {
+    text-shadow: .5px .5px #333332;
+    margin: 3px auto 0;
+    text-align: center;
+}
+
+/* Top Bar */
+
+#topbar {
+    height: 118px;
+    border-bottom: 2px solid #333332;
+    top: 0;
+
+}
+
+#topbar * {
+    font-size: 32px;
+}
+
+#topbar p {
+    padding: 0 0 0 15px;
+}
+
+#topbar #menu-buttons {
+    position: fixed;
+    top: 0px;
+    right: 10px;
+    line-height: 170%;
+}
+
+#topbar #menu-buttons button.menu-button {
+    width: 114px;
+    height: 42px;
+    font-size: 70%;
+    text-align: center;
+}
+
+#topbar #save-button-container {
+    position: fixed;
+    top: 69px;
+    right: 270px;
+}
+
+#topbar #save-button-container button.save-button {
+    width: 60px;
+    height: 28px;
+    font-size: 50%;
+    text-align: center;
+}
+
+/* Main */
+#main {
+    width: calc(50% - 91px);;
+    height: 520px;
+    float: left;
+}
+
+#main button.shovel {
+    border: 2px solid #333332;
+    padding: 12px 12px 8px;
+    display: block;
+    margin: 60px auto 0;
+}
+
+#main h2#shovel-name {
+    margin: 5px;
+    font-size: 140%
+}
+
+/* Commands Area */
+
+#command_section {
+    /*width: 338px; /* Width if both asides are equal  */
+    width: 178px;
+    height: calc(100% - 120px - 160px);
+    border-right: 2px solid #333332;
+    float: left;
+    overflow: scroll;
+}
+
+#command-button-section {
+    margin: 10px;
+}
+
+#command_section button.unit {
+    display: block;
+
+    width: 124px;
+    height: 100px;
+    margin: 15px auto;
+}
+
+#command_section button.unit:first-of-type {
+    /*margin-left: 15px;*/
+}
+
+#command_section button.unit p {
+    text-align: center;  
+}
+
+
+/* Info Area */
+
+#sidebar_section {
+    /*width: 338px; /* Width if both asides are equal */
+    width: calc(50% - 91px - 10px);             /* (50% - halfOfCommandArea - thisPadding) */
+    height: calc(100% - 120px - 160px - 10px);  /*  (50% - topBar - footer - thisPadding)  */
+    border-left: 2px solid #333332;
+    float: left;
+    padding: 5px;
+    overflow: scroll;
+}
+
+#info-section {
+    margin: 10px;
+}
+
+#info-section h2 {
+    font-size: 180%;
+    text-decoration: underline;
+}
+
+#info-section h3 {
+    text-align: center;
+    font-size: 160%
+}
+
+#info-section h4 {
+    text-align: center;
+    font-size: 100%
+}
+
+button.shop {
+    padding: 5px;
+    width: 142px;
+    margin: 10px;
+}
+
+button.shop img.shovel {
+    display: block;
+    margin: 3px auto 0;
+    vertical-align: center;
+}
+
+button.shop span.subtitle {
+    margin-top: -3px;
+}
+
+button#buy-double-shovel, button#buy-pet-cat {
+    width: 168px;
+}
+
+/* Bottom Bar */
+
+#bottombar {
+    width: 100%;
+    height: 158px;
+    border-top: 2px solid #333332;
+    position: absolute;
+    bottom: 0;
+}
+
+#bottombar div.bottom-button-wrapper {
+    margin: 15px 5px;
+    display: inline-block;
+}
+
+#bottombar div.bottom-button-wrapper p {
+    margin-left: 5px;
+}
+
+#bottombar button.unit {
+    width: 124px;
+    height: 100px;
+    margin-bottom: 6px;
+}
+
+#bottombar div.bottom-button-wrapper:first-of-type {
+    margin-left: 15px;
+}
+
+#bottombar button.unit p {
+    text-align: center;  
+}
+
+/* Misc */
+
+@media (max-width: 550px) { 
+    #sidebar_section, #main, #command_section, #bottombar {
+        float:none;
+        width:auto;
+        height: auto;
+        border:none;
+        border-bottom: 2px solid #333332;
+        position: static;
+    }
+        
+    body {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    #topbar #menu-buttons {
+        position: relative;
+        display: inline-block;
+    }
+
+    #topbar #save-button-container {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+
+    #topbar {
+        -webkit-box-ordinal-group: 1;
+        -moz-box-ordinal-group: 1;
+        -ms-flex-order: 1;
+        -webkit-order: 1;
+        order: 1;
+        height: 420px;
+    }
+
+    #main {
+        -webkit-box-ordinal-group: 2;
+        -moz-box-ordinal-group: 2;
+        -ms-flex-order: 2;
+        -webkit-order: 2;
+        order: 2;
+    }
+
+    #main button.shovel {
+        margin: 20px auto;
+    }
+
+    #bottombar {
+        -webkit-box-ordinal-group: 3;
+        -moz-box-ordinal-group: 3;
+        -ms-flex-order: 3;
+        -webkit-order: 3;
+        order: 3;
+    }
+
+    #command_section {
+        -webkit-box-ordinal-group: 4;
+        -moz-box-ordinal-group: 4;
+        -ms-flex-order: 4;
+        -webkit-order: 4;
+        order: 4;
+    }
+
+    #sidebar_section {
+        -webkit-box-ordinal-group: 5;
+        -moz-box-ordinal-group: 5;
+        -ms-flex-order: 5;
+        -webkit-order: 5;
+        order: 5;
+    }
+
+    #command_section {
+        top: 650px;
+    }
+}
