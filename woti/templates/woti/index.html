@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Landing Page - Words on a Website</title>
+
+    <meta name="description"
+        content="Landing page for Words on a Website, my page where I will put personal projects and blog posts. " />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/landingpage.css' %}" />
+    <link id="dark-css" rel="stylesheet" href="">
+</head>
+
+<body>
+    <a href="#" class="theme-switcher">
+        <i class="fas fa-moon"></i>
+    </a>
+    <div class="container">
+        <header class="row justify-content-center align-items-center">
+            <h1 class="text-center display-3">Words on a Website</h1>
+        </header>
+        <main class="row no-gutters justify-content-center align-items-center">
+
+            <div class="col-6">
+                <a href="necromancy.html" class="landing-page-link d-block text-center necromancy-button">
+                    <div class="link-inner">
+                        <h3>Necromancy</h3>
+                        <span>A Game About Diggin Up Bones </span>
+                    </div>
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-6">
+                <a href="wolfram.html" class="landing-page-link d-block text-center wolfram-button">
+                    <div class="link-inner">
+                        <h3>Wolfram</h3>
+                        <span>Rules of Cellular Automation </span>
+                    </div>
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-6">
+                <a href="stupidpowers.html" class="landing-page-link d-block text-center hello-button">
+                    <div class="link-inner">
+                        <h3>Stupid Powers</h3>
+                        <span>Generate a random stupid super power</span>
+                    </div>
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-2">
+                <a href="hello.html" class="landing-page-link d-block text-center hello-button">
+                    <div class="link-inner">
+                        <h3>Hello</h3>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-4">
+                <a href="blog/index.html" class="landing-page-link d-block text-center blog-button">
+                    <div class="link-inner">
+                        <h3>Blog</h3>
+                    </div>
+                </a>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="text/javascript" src="{% static 'javascript/jquery-3.3.1.min.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+        integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+        crossorigin="anonymous"></script>
+
+    <meta data-dark-theme="css/dark.css" />
+    <script type="text/javascript" src="{% static 'javascript/localtools.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/themeswitcher.js' %}"></script>
+</body>
+
+</html>
