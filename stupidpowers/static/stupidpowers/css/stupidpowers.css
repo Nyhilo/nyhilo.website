@@ -1,0 +1,48 @@
+/* Initially, set the opacity of all .power elements to 1 */
+.power {
+    opacity: 1;
+}
+
+/* For divs 4 and onwards, reduce the opacity by 10% for each subsequent div */
+.power:nth-child(n+4) {
+    opacity: 0.9;
+}
+
+.power:nth-child(n+5) {
+    opacity: 0.8;
+}
+
+.power:nth-child(n+6) {
+    opacity: 0.7;
+}
+
+.power:nth-child(n+7) {
+    opacity: 0.6;
+}
+
+.power:nth-child(n+8) {
+    opacity: 0.5;
+}
+
+.power:nth-child(n+9) {
+    opacity: 0.4;
+}
+
+.power:nth-child(n+10) {
+    opacity: 0.3;
+}
+
+.power:nth-child(n+11) {
+    opacity: 0.2;
+}
+
+.power:nth-child(n+12) {
+    opacity: 0.1;
+}
+
+.power:nth-child(n+13) {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+}
