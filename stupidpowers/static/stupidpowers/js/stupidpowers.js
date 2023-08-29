@@ -239,7 +239,7 @@
     $gen.click(() => {
         let chosen = powers.choose();
 
-        const $power = $('<h3 class="power text-center"></h3>').html(chosen.power);
+        const $power = $('<h3 class="power text-center py-1"></h3>').html(chosen.power);
         // const $ruling = $('<h4 class="ruling text-center mb-3"></h4>').html(chosen.ruling);
 
         $output.prepend($power);

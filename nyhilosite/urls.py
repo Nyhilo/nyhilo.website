@@ -20,6 +20,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('stupidpowers/', include("stupidpowers.urls")),
+    path('stupidpowers/', include('stupidpowers.urls')),
     path('woti/stupidpowers/', lambda request: redirect('/stupidpowers/', permanent=True))
 ]
