@@ -1,0 +1,60 @@
+/*
+Blue Gray
+50  #ECEFF1
+100 #CFD8DC
+200 #B0BEC5
+300 #90A4AE
+400 #78909C
+500 #607D8B
+600 #546E7A
+700 #455A64
+800 #37474F
+900 #263238
+*/
+
+* {
+    font-family: Roboto, helvetica, sans-serif;
+    transition-duration: .2s;
+}
+
+body {
+    background-color: #ECEFF1;
+    color: #37474F;
+}
+
+.container {
+    width: 50%;
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    line-height: 2em;
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 130%;
+    font-weight: bold;
+}
+
+.container ul li {
+    height: 3rem;
+}
+
+a,
+a:link,
+a:visited {
+    color: #B0BEC5;
+    text-decoration: none;
+}
+
+a:hover {
+    font-size: 105%;
+    color: #546E7A;
+}
