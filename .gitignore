@@ -139,4 +139,4 @@ dmypy.json
 conf/
 
 ## Environment Settings ##
-nyhilosite/settings.py
+nyhilosite/settings_prod.py
