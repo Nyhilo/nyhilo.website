@@ -1,0 +1,90 @@
+/*
+Bootstrap 4 grays:
+100 - #f8f9fa - rgba(248, 249, 250, 1) 
+200 - #e9ecef - rgba(233, 236, 239, 1)
+300 - #dee2e6 - rgba(222, 226, 230, 1)
+400 - #ced4da - rgba(206, 212, 218, 1)
+500 - #adb5bd - rgba(173, 181, 189, 1)
+600 - #6c757d - rgba(108, 117, 125, 1)
+700 - #495057 - rgba(73, 80, 87, 1)
+800 - #343a40 - rgba(52, 58, 64, 1)
+900 - #212529 - rgba(33, 37, 41, 1)
+*/
+
+:root {
+    --text: #333;
+    --background: #F7F5EF;
+    --hover-highlight: rgb(190,190,190,.5);
+    --button-color: #333332;
+    --button-hover: #ddd;
+    --button-active: #333;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+}
+
+/* Misc */
+@font-face {
+    font-family: "Monofur";
+    src: url("../fonts/monof55.ttf");
+}
+
+body {
+    background-color: var(--background);
+    font-family: 'Monofur', Arial, sans-serif;
+    color: var(--text);
+}
+
+a.theme-switcher {
+    display: block;
+
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    right: 2rem;
+    top: 2rem;
+    
+    /*border: 2px solid var(--text);*/
+    border-radius: 5px;
+    
+    padding-top: 0.3rem;
+    
+    text-align: center;
+    color: var(--text);
+}
+
+a.theme-switcher:hover {
+    background-color: var(--hover-highlight)
+}
+
+i.fas {
+    color: var(--text);
+}
+
+/*Generic Buttons*/
+.btn {
+    background-color: transparent;
+    color: var(--button-color);
+    padding: .5em 1em .5em 1em;
+    border: solid var(--button-color) 2px;
+    margin: .1em;
+}
+
+.btn:hover {
+    background: var(--button-hover);
+}
+
+.btn:active {
+    background: var(--button-active);
+}
+
+.btn:focus {
+    outline: none;
+    text-decoration: none;
+}

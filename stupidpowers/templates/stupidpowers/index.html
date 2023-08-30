@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Stupid Powers</title>
+    <meta name="description" content="Stupid Super Power Generator">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/dark.css' %}"/>
+    <link rel="stylesheet" href="{% static 'stupidpowers/css/stupidpowers.css' %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+    <header class="my-3">
+        <h2 class="text-center">Stupid Powers</h2>
+    </header>
+    
+    <div class="container my-5">
+        <div class="col text-center">
+            <button id="generate-btn" class="text-center btn btn-outline-primary">Generate Stupid Power</button>
+        </div>
+        <div class="output col-12 text-center mt-5">
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'stupidpowers/js/stupidpowers.js' %}"></script>
+</body>
+</html>
