@@ -47,20 +47,29 @@
     right: 1rem;
 }
 
-#new-power-container .flat-left {
+#new-power-button .flat-left {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
+#new-power-input {
+    /* The right button is 1.5 rem, with a 1rem margin from the right edge */
+    /* This leaves a 1rem margin on the left edge. */
+    max-width: calc(100vw - 3.5rem);
+    border-radius: 0.2rem;
+}
+
+/* Text box closed */
 .text-input-slide {
     padding: 0;
     border: none;
     width: 0
 }
 
+/* Text box open */
 .text-input-slide.open {
     width: 25rem;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
     transition: width 500ms ease;
     -moz-transition: width 500ms ease;
     -ms-transition: width 500ms ease;
