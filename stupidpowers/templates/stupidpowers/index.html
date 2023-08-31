@@ -17,10 +17,12 @@
 </head>
 
 <body>
+    {% comment %} Header {% endcomment %}
     <header class="my-3">
         <h2 class="text-center">Stupid Powers</h2>
     </header>
     
+    {% comment %} Main power generation body {% endcomment %}
     <div class="container my-5">
         <div class="col text-center">
             <button id="generate-btn" class="text-center btn btn-outline-primary">Generate Stupid Power</button>
@@ -28,7 +30,17 @@
         <div class="output col-12 text-center mt-5">
         </div>
     </div>
+
+    {% comment %} New power suggestion input {% endcomment %}
+    <div id="new-power-container" class="position-fixed">
+        <small id="new-power-response"></small>
+        <div class="input-group">
+            <input id="new-power-input" class="text-input-slide" placeholder="Suggest a new Stupid Power">
+            <button id="new-power-button" class="text-center input-group-append btn btn-sm btn-outline-primary expand-btn">+</button>
+        </div>
+    </div>
     
+    {% comment %} Interacts with the stupidpowers.js script {% endcomment %}
     <script type="text/javascript">
         const powers_global = [
         {% for power in powers %}
