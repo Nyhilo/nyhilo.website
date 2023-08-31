@@ -67,10 +67,8 @@ $(document).ready(function () {
     const $newPowerInput = $('#new-power-input');
     const $newPowerBtn = $('#new-power-button');
 
-    // To future explorers, yes you can bypass by just running the ajax below this, but you would make me sad :(
-    // I didn't want to bother setting up proper auth, so this lock is meant to keep out the ignorant, not malicious
-    // Since you aren't the former, I would prefer if you weren't the latter. Thank you.
     let passwordVerified = getCookie('passwordVerified') == 'true';
+    let passkey = getCookie('passkey');
 
     $newPowerInput.keydown((e) => { if (e.keyCode == 13) parseNewPowerInput(); })
     $newPowerBtn.click(parseNewPowerInput);
@@ -99,6 +97,27 @@ $(document).ready(function () {
         }
     }
 
+    // To future explorers, if you're here to see if the passkey can be bypassed/figured out, yes it can
+    // You COULD just run this ajax request with a password breaker, and my site would probably respond in kind
+    // Please don't do that. This is just for funnies and all it will do is make me sad. Thank you.
+    function checkPassword() {
+        passkey = prompt('You need a key to do that. You got a key?');
+        $.post(
+            'passkey',
+            { passkey: passkey },
+            'json'
+        ).done(() => {
+            passwordVerified = true;
+            setCookie('passwordVerified', 'true', 1)
+            setCookie('passkey', passkey, 1)
+            sendPowerSuggestion();
+        }).fail(() => {
+            alert('That ain\'t it, kid.')
+        }).always(() => {
+            processing = false;
+        });
+    }
+
     function sendPowerSuggestion() {
         const suggestion = $newPowerInput.val();
 
@@ -110,7 +129,7 @@ $(document).ready(function () {
 
         $.post(
             'createpower',
-            { description: suggestion },
+            { description: suggestion, key: passkey },
             'json'
         ).done(() => {
             $newPowerInput.val('');
@@ -123,23 +142,6 @@ $(document).ready(function () {
                 // Let the message sit a bit, then start fading it out
                 .delay(1000).fadeOut(1000, () => { $(this).hide(); });
 
-            processing = false;
-        });
-    }
-
-    function checkPassword() {
-        const pwTry = prompt('You need a key to do that. You got a key?');
-        $.post(
-            'passkey',
-            { passkey: pwTry },
-            'json'
-        ).done(() => {
-            passwordVerified = true;
-            setCookie('passwordVerified', 'true', 1)
-            sendPowerSuggestion();
-        }).fail(() => {
-            alert('That ain\'t it, kid.')
-        }).always(() => {
             processing = false;
         });
     }
