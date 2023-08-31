@@ -28,6 +28,14 @@
         <div class="output col-12 text-center mt-5">
         </div>
     </div>
+    
+    <script type="text/javascript">
+        const powers_global = [
+        {% for power in powers %}
+            { power: '{{ power.power }}', ruling: '{{ power.ruling }}' },
+        {% endfor %}
+        ];
+    </script>
 
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'stupidpowers/js/stupidpowers.js' %}"></script>
