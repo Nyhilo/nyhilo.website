@@ -5,44 +5,69 @@
 
 /* For divs 4 and onwards, reduce the opacity by 10% for each subsequent div */
 .power:nth-child(n+4) {
-    opacity: 0.9;
+    opacity: 0.875;
 }
 
 .power:nth-child(n+5) {
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
 .power:nth-child(n+6) {
-    opacity: 0.7;
+    opacity: 0.625;
 }
 
 .power:nth-child(n+7) {
-    opacity: 0.6;
-}
-
-.power:nth-child(n+8) {
     opacity: 0.5;
 }
 
+.power:nth-child(n+8) {
+    opacity: 0.375;
+}
+
 .power:nth-child(n+9) {
-    opacity: 0.4;
+    opacity: 0.25;
 }
 
 .power:nth-child(n+10) {
-    opacity: 0.3;
+    opacity: 0.125;
 }
 
 .power:nth-child(n+11) {
-    opacity: 0.2;
-}
-
-.power:nth-child(n+12) {
-    opacity: 0.1;
-}
-
-.power:nth-child(n+13) {
     opacity: 0;
     height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
+}
+
+/* New power feature */
+
+
+#new-power-container {
+    bottom: 1rem;
+    right: 1rem;
+}
+
+#new-power-container .flat-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.text-input-slide {
+    padding: 0;
+    border: none;
+    width: 0
+}
+
+.text-input-slide.open {
+    width: 25rem;
+    padding-left: .5rem;
+    transition: width 500ms ease;
+    -moz-transition: width 500ms ease;
+    -ms-transition: width 500ms ease;
+    -o-transition: width 500ms ease;
+    -webkit-transition: width 500ms ease;
+}
+
+#new-power-button {
+    width: 1.5rem;
 }
