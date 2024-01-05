@@ -13,7 +13,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
-    'stupidpowers.apps.StupidpowersConfig'
+    'stupidpowers.apps.StupidpowersConfig',
+    'cycle15.apps.Cycle15Config'
 ]
 
 MIDDLEWARE = [
