@@ -84,6 +84,8 @@ canvas.addEventListener('mousemove', e => {
 
 canvas.addEventListener('mouseup', () => {
     isDragging = false;
+    selectedSprite.relative_x = selectedSprite.x - canvasOffset.x;
+    selectedSprite.relative_y = selectedSprite.y - canvasOffset.y;
     selectedSprite = null;
 });
 
@@ -98,20 +100,20 @@ window.onresize = (e) => {
 
 // Initial draw call to render the map and sprites
 map_img.onload = () => {
+    sprites = [];
+    spritesBase.forEach((sprite) => {
+        sprites.push({
+            relative_x: sprite.x, // The unoffset position relative to the background
+            relative_y: sprite.y,
+            image: sprite.image
+        });
+    });
+
     updateOffsets();
     draw();
 };
 
 function updateOffsets() {
-    sprites = [];
-    spritesBase.forEach((sprite) => {
-        sprites.push({
-            x: sprite.x,
-            y: sprite.y,
-            image: sprite.image
-        });
-    })
-
     // Resize the canvas to the window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -124,8 +126,8 @@ function updateOffsets() {
 
     // Update sprite position offsets
     sprites.forEach(sprite => {
-        sprite.x = sprite.x + canvasOffset.x;
-        sprite.y = sprite.y + canvasOffset.y;
+        sprite.x = sprite.relative_x + canvasOffset.x;
+        sprite.y = sprite.relative_y + canvasOffset.y;
     });
 }
 
