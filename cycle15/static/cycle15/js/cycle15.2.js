@@ -16,17 +16,22 @@ canvas.height = window.innerHeight;
 const map_img = new Image();
 map_img.src = mapBaseImg; // Replace with your image path
 
+// Canvas offset for positioning elements relative to the bg image.
+// This is set in the .onload callback below
+let canvasOffset = {};
+
+// Active sprite data is tracked separately from loaded sprite data
+let sprites = [];
+
 // Sprite properties
-const [spriteWidth, spriteHeight] = [100, 100];
+const [spriteWidth, spriteHeight] = [50, 50];
 
 // Function to draw the map and sprites
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
     // Draw the map background
-    const w = (canvas.width - map_img.width) / 2;
-    const h = (canvas.height - map_img.height) / 2;
-    ctx.drawImage(map_img, w, h);//, canvas.width, canvas.height);
+    ctx.drawImage(map_img, canvasOffset.x, canvasOffset.y);//, canvas.width, canvas.height);
 
     // Draw sprites
     sprites.forEach(sprite => {
@@ -82,12 +87,57 @@ canvas.addEventListener('mouseup', () => {
     selectedSprite = null;
 });
 
-// Initial draw call to render the map and sprites
-map_img.onload = () => {
-    draw();
-};
-
 /***********************************************************************/
 /* End ChatGPT generated content, MIT licensed content continues below */
 /***********************************************************************/
 
+window.onresize = (e) => {
+    updateOffsets();
+    draw();
+}
+
+// Initial draw call to render the map and sprites
+map_img.onload = () => {
+    updateOffsets();
+    draw();
+};
+
+function updateOffsets() {
+    sprites = [];
+    spritesBase.forEach((sprite) => {
+        sprites.push({
+            x: sprite.x,
+            y: sprite.y,
+            image: sprite.image
+        });
+    })
+
+    // Resize the canvas to the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Save offsets for positioning elements
+    canvasOffset = {
+        x: (canvas.width - map_img.width) / 2,
+        y: (canvas.height - map_img.height) / 2
+    };
+
+    // Update sprite position offsets
+    sprites.forEach(sprite => {
+        sprite.x = sprite.x + canvasOffset.x;
+        sprite.y = sprite.y + canvasOffset.y;
+    });
+}
+
+// https://stackoverflow.com/a/56341485
+async function loadBackground() {
+    let img;
+
+    await new Promise(resolve => {
+        img = new Image();
+        img.onload = resolve;
+        img.src = mapBaseImg;
+    });
+
+    return img;
+}
