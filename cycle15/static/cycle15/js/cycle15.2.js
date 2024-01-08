@@ -86,8 +86,38 @@ canvas.addEventListener('mouseup', () => {
     isDragging = false;
     selectedSprite.relative_x = selectedSprite.x - canvasOffset.x;
     selectedSprite.relative_y = selectedSprite.y - canvasOffset.y;
+
+    saveSprite(selectedSprite)
+
     selectedSprite = null;
 });
+
+function saveSprite(sprite) {
+    const spriteData = {
+        user: sprite.user,
+        x: sprite.relative_x,
+        y: sprite.relative_y
+    }
+
+    // AJAX request using vanilla JavaScript
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'savesprite/', true); // Replace '/your-saveSprite-url/' with your actual URL
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log(`Sprite ${sprite.user} saved successfully.`);
+        } else {
+            console.log('Failed to save sprite.');
+        }
+    };
+
+    // Convert data object to a query string
+    //var dataToSend = 'sprite=' + JSON.stringify(spriteData);
+
+    // Send the request
+    xhr.send(JSON.stringify(spriteData));
+}
 
 /***********************************************************************/
 /* End ChatGPT generated content, MIT licensed content continues below */
@@ -103,6 +133,7 @@ map_img.onload = () => {
     sprites = [];
     spritesBase.forEach((sprite) => {
         sprites.push({
+            user: sprite.user,
             relative_x: sprite.x, // The unoffset position relative to the background
             relative_y: sprite.y,
             image: sprite.image

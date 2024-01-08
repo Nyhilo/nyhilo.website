@@ -22,12 +22,13 @@
         const spritems = {}
         mapBaseImg = "{% static 'cycle15/img/map_base.png' %}"
         let spritesBase = [
-            { x: 800, y: 400, image: (() => { const img = new Image(); img.src = "{% static 'cycle15/img/rombibiribombee.png' %}"; return img; })() },
-            { x: 600, y: 600, image: (() => { const img = new Image(); img.src = "{% static 'cycle15/img/trungle.png' %}"; return img; })() },
-            { x: 600, y: 700, image: (() => { const img = new Image(); img.src = "{% static 'cycle15/img/klink.webp' %}"; return img; })() },
-            { x: 500, y: 500, image: (() => { const img = new Image(); img.src = "data:image/webp;base64,UklGRtQCAABXRUJQVlA4TMcCAAAvd8AbEM/iKpIkxapjPv8GTs+JwC9+tDD7xoYb27bVZMeDOyXznwQVA0mFdC7xuI0kSZHqmNmZ8188JxhfYv6Zm/8AQB0OWWCIIAH4BEoQPgP6XxmgfDNACReKfm8pvRlnY9Hi5gsRaE+alTqLjAH3ffsafCLEjSM//BGqmMOkP6k/cUeOSo5zg1AoFUXilyoD2z0jJdISSZ3IzwdYouFnn34FP8X/Idp+FPBiicMXgSRSIVDTqSLwb14E6r9KutBHJ/RIwh+IVwsdkNSRmCNqAJ+CQJaD/O3zQEwMxxol4DNACfIzg0Tb1s4wapPatu2xpzZS8/3fJCt/6nQ850T035EbSYrkvGQP0+ITSp5t/vvvHwRi849BX1Larca+dMqAcAe9dngPGORloCk67LXdu52RaiN1amRssVMF1XZ71LssrFpnk5Hh9NgiB3poHOQu8u5rXil2G9ZwQSyZqGp+C+9r/qDI6SVwcUs0f7HIOxSLm17cMZq32N0GL4vIPJF3LUVNIxPytdDJlJGtlFLlBAsOuuBtrU4tbgkw7QWq8M5tWoicso819nxPnTrMbSXTKHKRU0bqGyEyc/6ce8yAzaZ8xah1ajgodiOkghDkAjjmoyc0m2lC/uaLHJRSa+iYflLcOEnCIgljzjtk5p6aFusMP/OL3Dq9Rr41so1jEmaY5IBFUrxmyAYy99QFB818x7LY6aoJ0B5klgTINNLtu2BkuAcI35mLHOiKmuTks5kGpGfIMJlPJDPNlwFUeMoi8CnIR49ZUfcdp05dcJh6NWxFT5eBhEWOnAP0mHMTVvzAvgkQmQ6sNzbtvASWKCfFptcmdHHFlhV+4bv6Fcj/V+MlAOWcuUhCDZt2AZXqrhWm3KGakiAvgzIg9tBvxoa/+wEUVBVeEhr+d6UAkL+DsDxfz+s/UiUnLyF9OYG+tAAUnq1fGQEA"; return img; })() },
+        {% for sprite in sprites %}
+            { user: '{{ sprite.user }}', x: {{ sprite.x }}, y: {{ sprite.y }}, image: (() => { const img = new Image(); img.src = "{{ sprite.image }}"; return img; })() },
+        {% endfor %}
         ];
     </script>
+    <script src="{% static 'home/js/global.js' %}"></script>
     <script src="{% static 'cycle15/js/cycle15.2.js' %}"></script>
+    <script src="{% static 'cycle15/js/spriteupload.js' %}"></script>
 </body>
 </html>
