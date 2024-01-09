@@ -116,7 +116,10 @@ function saveSprites() {
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
     xhr.setRequestHeader('passkey', passkeyInput.value);
     xhr.onload = function() {
-        showResponse(xhr.responseText, xhr.status === 200);
+        if (xhr.status >= 500)
+            showResponse("An error occurred. See console for details.", false);
+        else
+            showResponse(xhr.responseText, xhr.status === 200);
     };
 
     // Send the request

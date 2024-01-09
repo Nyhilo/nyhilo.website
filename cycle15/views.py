@@ -8,6 +8,7 @@ from django import forms
 
 
 from .models import Sprite
+from nyhilosite.settings import env
 
 
 # VIEWS #
@@ -61,7 +62,7 @@ def saveSprites(request):
     # Validate the attributes
     data = json.loads(request.body)
 
-    if request.headers['Passkey'] != '':
+    if request.headers['Passkey'] != env('CYCLE_15_PASSKEY'):
         return HttpResponseBadRequest('Bad passkey.')
 
     if data is None or data is []:
