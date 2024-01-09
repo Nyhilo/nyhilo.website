@@ -8,6 +8,7 @@ from django import forms
 
 
 from .models import Sprite
+from nyhilosite.settings import env
 
 
 # VIEWS #
@@ -18,10 +19,9 @@ def index(request):
 
 
 def sprite_upload(request):
-    return render(request, 'cycle15/spriteupload.html')
+    if request.method == 'GET':
+        return render(request, 'cycle15/spriteupload.html')
 
-
-def upload(request):
     if request.method == 'POST':
         form = SpriteForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,6 +29,9 @@ def upload(request):
             x_position = form.cleaned_data['x_position']
             y_position = form.cleaned_data['y_position']
             file_upload = form.cleaned_data['file_upload']
+
+            if Sprite.objects.filter(user=username).exists():
+                return render(request, 'cycle15/spriteupload.html')
 
             # Convert the uploaded file to base64
             encoded_file = None
@@ -42,35 +45,36 @@ def upload(request):
                     return HttpResponseBadRequest('Bad file extension. Use png, jpg, or webp')
 
                 file_string = f'data:image/{extension};base64,{encoded_file}'
-                print(file_string)
 
             Sprite.objects.create(
                 user=username, x=x_position, y=y_position, image=file_string)
 
             # Redirect or render a success page
-            return render(request, 'cycle15/index.html')
+            return render(request, 'cycle15/spriteupload.html')
     else:
         form = SpriteForm()
-    return render(request, 'cycle15/index.html', {})
+    return render(request, 'cycle15/spriteupload.html', {})
 
 
 # POST
-def saveSprite(request):
+def saveSprites(request):
     # Validate the attributes
     data = json.loads(request.body)
 
-    if data is None:
-        return HttpResponseBadRequest('No sprite provided.')
+    if request.headers['Passkey'] != env('CYCLE_15_PASSKEY'):
+        return HttpResponseBadRequest('Bad passkey.')
 
-    if data['user'] is None or data['user'] == '':
-        return HttpResponseBadRequest('No username given.')
+    if data is None or data == []:
+        return HttpResponse('No sprites to save.')
 
-    sprite = Sprite.objects.get(user=data['user'])
-    sprite.x = data['x']
-    sprite.y = data['y']
+    for spriteData in data:
+        sprite = Sprite.objects.get(user=spriteData['user'])
+        sprite.x = spriteData['x']
+        sprite.y = spriteData['y']
 
-    sprite.save()
-    return HttpResponse('Sprite saved successfully.')
+        sprite.save()
+
+    return HttpResponse(f'Saved {len(data)} sprite{"s" if len(data) > 1 else ""}.')
 
 
 class SpriteForm(forms.Form):

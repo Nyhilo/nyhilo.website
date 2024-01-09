@@ -83,45 +83,54 @@ canvas.addEventListener('mousemove', e => {
 });
 
 canvas.addEventListener('mouseup', () => {
+    if (!isDragging)
+        return;
+
     isDragging = false;
     selectedSprite.relative_x = selectedSprite.x - canvasOffset.x;
     selectedSprite.relative_y = selectedSprite.y - canvasOffset.y;
-
-    saveSprite(selectedSprite)
+    selectedSprite.moved = true;
 
     selectedSprite = null;
 });
 
-function saveSprite(sprite) {
-    const spriteData = {
-        user: sprite.user,
-        x: sprite.relative_x,
-        y: sprite.relative_y
-    }
-
-    // AJAX request using vanilla JavaScript
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'savesprite/', true); // Replace '/your-saveSprite-url/' with your actual URL
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log(`Sprite ${sprite.user} saved successfully.`);
-        } else {
-            console.log('Failed to save sprite.');
-        }
-    };
-
-    // Convert data object to a query string
-    //var dataToSend = 'sprite=' + JSON.stringify(spriteData);
-
-    // Send the request
-    xhr.send(JSON.stringify(spriteData));
-}
-
 /***********************************************************************/
 /* End ChatGPT generated content, MIT licensed content continues below */
 /***********************************************************************/
+
+const passkeyInput = document.getElementById('passkey-input')
+const responseSpan = document.getElementById('response')
+
+function saveSprites() {
+    const spriteData = sprites.filter(sprite => sprite.moved).map(sprite => {
+        return {
+            user: sprite.user,
+            x: sprite.relative_x,
+            y: sprite.relative_y
+        }
+    })
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'savesprites/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    xhr.setRequestHeader('passkey', passkeyInput.value);
+    xhr.onload = function() {
+        if (xhr.status > 400)
+            showResponse("An error occurred. See console for details.", false);
+        else if (xhr.status === 200) {
+            sprites.forEach(sprite => { sprite.moved = false; });
+            showResponse(xhr.responseText, true);
+        }
+        else
+            showResponse(xhr.responseText, false);
+    };
+
+    // Send the request
+    xhr.send(JSON.stringify(spriteData));
+
+}
+
 
 window.onresize = (e) => {
     updateOffsets();
@@ -136,7 +145,8 @@ map_img.onload = () => {
             user: sprite.user,
             relative_x: sprite.x, // The unoffset position relative to the background
             relative_y: sprite.y,
-            image: sprite.image
+            image: sprite.image,
+            moved: false
         });
     });
 
@@ -173,4 +183,30 @@ async function loadBackground() {
     });
 
     return img;
+}
+
+let showTimeout;
+let fadeTimeout;
+function showResponse(response, isSuccess) {
+    clearTimeout(showTimeout);
+    clearTimeout(fadeTimeout);
+
+    if (isSuccess)
+        responseSpan.style.color = 'blue';
+    else
+        responseSpan.style.color = 'red';
+
+    responseSpan.textContent = response;
+
+    responseSpan.classList.remove('fade-out');
+    responseSpan.style.display = 'block';
+
+    showTimeout = setTimeout(function() {
+        responseSpan.classList.add('fade-out');
+    }, 1500);
+
+    fadeTimeout = setTimeout(function() {
+        responseSpan.style.display = 'none';
+        responseSpan.classList.remove('fade-out')
+    }, 2500);
 }

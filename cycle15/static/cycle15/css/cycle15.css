@@ -10,3 +10,29 @@ html, body {
 #images {
     display: none;
 }
+
+#passkey-input {
+    position: absolute;
+    left: 1rem;
+    bottom: 5rem;
+    z-index: 10000;
+}
+
+#save-sprites {
+    position: absolute;
+    left: 1rem;
+    bottom: 3rem;
+    z-index: 10000;
+}
+
+#response {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 10000;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+  }
