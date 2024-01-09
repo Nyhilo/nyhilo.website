@@ -57,22 +57,24 @@ def sprite_upload(request):
 
 
 # POST
-def saveSprite(request):
+def saveSprites(request):
     # Validate the attributes
     data = json.loads(request.body)
 
-    if data is None:
-        return HttpResponseBadRequest('No sprite provided.')
+    if request.headers['Passkey'] != '':
+        return HttpResponseBadRequest('Bad passkey.')
 
-    if data['user'] is None or data['user'] == '':
-        return HttpResponseBadRequest('No username given.')
+    if data is None or data is []:
+        return HttpResponse('No sprites to save.')
 
-    sprite = Sprite.objects.get(user=data['user'])
-    sprite.x = data['x']
-    sprite.y = data['y']
+    for spriteData in data:
+        sprite = Sprite.objects.get(user=spriteData['user'])
+        sprite.x = spriteData['x']
+        sprite.y = spriteData['y']
 
-    sprite.save()
-    return HttpResponse('Sprite saved successfully.')
+        sprite.save()
+
+    return HttpResponse('Sprites saved successfully.')
 
 
 class SpriteForm(forms.Form):

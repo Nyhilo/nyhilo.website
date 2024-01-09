@@ -18,6 +18,9 @@
     <div id="images" style="display: none;">
         {% comment %} <img id='basetest' src="{% static 'cycle15/img/map_base.png' %}" alt=""> {% endcomment %}
     </div>
+    <input id="passkey-input" type="text" placeholder="passkey">
+    <button id="save-sprites" onclick="saveSprites()">Save Player Positions</button>
+    <span id="response"></span>
     <script>
         const spritems = {}
         mapBaseImg = "{% static 'cycle15/img/map_base.png' %}"

@@ -83,45 +83,46 @@ canvas.addEventListener('mousemove', e => {
 });
 
 canvas.addEventListener('mouseup', () => {
+    if (!isDragging)
+        return;
+
     isDragging = false;
     selectedSprite.relative_x = selectedSprite.x - canvasOffset.x;
     selectedSprite.relative_y = selectedSprite.y - canvasOffset.y;
 
-    saveSprite(selectedSprite)
-
     selectedSprite = null;
 });
 
-function saveSprite(sprite) {
-    const spriteData = {
-        user: sprite.user,
-        x: sprite.relative_x,
-        y: sprite.relative_y
-    }
+/***********************************************************************/
+/* End ChatGPT generated content, MIT licensed content continues below */
+/***********************************************************************/
+
+const passkeyInput = document.getElementById('passkey-input')
+const responseSpan = document.getElementById('response')
+
+function saveSprites() {
+    const spriteData = sprites.map((sprite) => {
+        return {
+            user: sprite.user,
+            x: sprite.relative_x,
+            y: sprite.relative_y
+        }
+    })
 
     // AJAX request using vanilla JavaScript
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'savesprite/', true); // Replace '/your-saveSprite-url/' with your actual URL
+    xhr.open('POST', 'savesprites/', true); // Replace '/your-saveSprite-url/' with your actual URL
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    xhr.setRequestHeader('passkey', passkeyInput.value);
     xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log(`Sprite ${sprite.user} saved successfully.`);
-        } else {
-            console.log('Failed to save sprite.');
-        }
+        showResponse(xhr.responseText, xhr.status === 200);
     };
-
-    // Convert data object to a query string
-    //var dataToSend = 'sprite=' + JSON.stringify(spriteData);
 
     // Send the request
     xhr.send(JSON.stringify(spriteData));
 }
 
-/***********************************************************************/
-/* End ChatGPT generated content, MIT licensed content continues below */
-/***********************************************************************/
 
 window.onresize = (e) => {
     updateOffsets();
@@ -173,4 +174,24 @@ async function loadBackground() {
     });
 
     return img;
+}
+
+function showResponse(response, isSuccess) {
+    if (isSuccess)
+        responseSpan.style.color = 'blue';
+    else
+        responseSpan.style.color = 'red';
+
+    responseSpan.textContent = response;
+
+    responseSpan.style.display = 'block';
+
+    setTimeout(function() {
+        responseSpan.classList.add('fade-out');
+    }, 1500);
+
+    setTimeout(function() {
+        responseSpan.style.display = 'none'; // Hides the element after the fade-out effect
+        responseSpan.classList.remove('fade-out')
+    }, 2500);
 }
