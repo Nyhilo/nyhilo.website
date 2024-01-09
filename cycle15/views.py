@@ -45,7 +45,6 @@ def sprite_upload(request):
                     return HttpResponseBadRequest('Bad file extension. Use png, jpg, or webp')
 
                 file_string = f'data:image/{extension};base64,{encoded_file}'
-                print(file_string)
 
             Sprite.objects.create(
                 user=username, x=x_position, y=y_position, image=file_string)
@@ -65,7 +64,7 @@ def saveSprites(request):
     if request.headers['Passkey'] != env('CYCLE_15_PASSKEY'):
         return HttpResponseBadRequest('Bad passkey.')
 
-    if data is None or data is []:
+    if data is None or data == []:
         return HttpResponse('No sprites to save.')
 
     for spriteData in data:
@@ -75,7 +74,7 @@ def saveSprites(request):
 
         sprite.save()
 
-    return HttpResponse('Sprites saved successfully.')
+    return HttpResponse(f'Saved {len(data)} sprite{"s" if len(data) > 1 else ""}.')
 
 
 class SpriteForm(forms.Form):

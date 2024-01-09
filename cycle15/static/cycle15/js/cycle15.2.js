@@ -89,6 +89,7 @@ canvas.addEventListener('mouseup', () => {
     isDragging = false;
     selectedSprite.relative_x = selectedSprite.x - canvasOffset.x;
     selectedSprite.relative_y = selectedSprite.y - canvasOffset.y;
+    selectedSprite.moved = true;
 
     selectedSprite = null;
 });
@@ -101,7 +102,7 @@ const passkeyInput = document.getElementById('passkey-input')
 const responseSpan = document.getElementById('response')
 
 function saveSprites() {
-    const spriteData = sprites.map((sprite) => {
+    const spriteData = sprites.filter(sprite => sprite.moved).map(sprite => {
         return {
             user: sprite.user,
             x: sprite.relative_x,
@@ -116,14 +117,19 @@ function saveSprites() {
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
     xhr.setRequestHeader('passkey', passkeyInput.value);
     xhr.onload = function() {
-        if (xhr.status >= 500)
+        if (xhr.status > 400)
             showResponse("An error occurred. See console for details.", false);
+        else if (xhr.status === 200) {
+            sprites.forEach(sprite => { sprite.moved = false; });
+            showResponse(xhr.responseText, true);
+        }
         else
-            showResponse(xhr.responseText, xhr.status === 200);
+            showResponse(xhr.responseText, false);
     };
 
     // Send the request
     xhr.send(JSON.stringify(spriteData));
+
 }
 
 
@@ -140,7 +146,8 @@ map_img.onload = () => {
             user: sprite.user,
             relative_x: sprite.x, // The unoffset position relative to the background
             relative_y: sprite.y,
-            image: sprite.image
+            image: sprite.image,
+            moved: false
         });
     });
 
@@ -179,7 +186,12 @@ async function loadBackground() {
     return img;
 }
 
+let showTimeout;
+let fadeTimeout;
 function showResponse(response, isSuccess) {
+    clearTimeout(showTimeout);
+    clearTimeout(fadeTimeout);
+
     if (isSuccess)
         responseSpan.style.color = 'blue';
     else
@@ -187,13 +199,14 @@ function showResponse(response, isSuccess) {
 
     responseSpan.textContent = response;
 
+    responseSpan.classList.remove('fade-out');
     responseSpan.style.display = 'block';
 
-    setTimeout(function() {
+    showTimeout = setTimeout(function() {
         responseSpan.classList.add('fade-out');
     }, 1500);
 
-    setTimeout(function() {
+    fadeTimeout = setTimeout(function() {
         responseSpan.style.display = 'none'; // Hides the element after the fade-out effect
         responseSpan.classList.remove('fade-out')
     }, 2500);
