@@ -18,10 +18,9 @@ def index(request):
 
 
 def sprite_upload(request):
-    return render(request, 'cycle15/spriteupload.html')
+    if request.method == 'GET':
+        return render(request, 'cycle15/spriteupload.html')
 
-
-def upload(request):
     if request.method == 'POST':
         form = SpriteForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,6 +28,9 @@ def upload(request):
             x_position = form.cleaned_data['x_position']
             y_position = form.cleaned_data['y_position']
             file_upload = form.cleaned_data['file_upload']
+
+            if Sprite.objects.filter(user=username).exists():
+                return render(request, 'cycle15/spriteupload.html')
 
             # Convert the uploaded file to base64
             encoded_file = None
@@ -48,10 +50,10 @@ def upload(request):
                 user=username, x=x_position, y=y_position, image=file_string)
 
             # Redirect or render a success page
-            return render(request, 'cycle15/index.html')
+            return render(request, 'cycle15/spriteupload.html')
     else:
         form = SpriteForm()
-    return render(request, 'cycle15/index.html', {})
+    return render(request, 'cycle15/spriteupload.html', {})
 
 
 # POST

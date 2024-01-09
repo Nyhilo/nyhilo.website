@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Cycle 15 Game Map</title>
+    <title>Cycle 15 Sprite Upload</title>
     <meta name="description" content="Cycle 15 Game Map">
 
     <link rel="stylesheet" href="{% static 'cycle15/css/cycle15.css' %}"/>
@@ -13,7 +13,7 @@
     {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1.0"/> {% endcomment %}
 </head>
 <body>
-    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'sprite_upload' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <label for="username">Username:</label>
