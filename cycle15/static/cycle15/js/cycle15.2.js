@@ -110,9 +110,8 @@ function saveSprites() {
         }
     })
 
-    // AJAX request using vanilla JavaScript
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'savesprites/', true); // Replace '/your-saveSprite-url/' with your actual URL
+    xhr.open('POST', 'savesprites/', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
     xhr.setRequestHeader('passkey', passkeyInput.value);
@@ -207,7 +206,7 @@ function showResponse(response, isSuccess) {
     }, 1500);
 
     fadeTimeout = setTimeout(function() {
-        responseSpan.style.display = 'none'; // Hides the element after the fade-out effect
+        responseSpan.style.display = 'none';
         responseSpan.classList.remove('fade-out')
     }, 2500);
 }
