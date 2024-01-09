@@ -22,5 +22,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('admin/', admin.site.urls),
     path('stupidpowers/', include('stupidpowers.urls')),
-    path('woti/stupidpowers/', lambda request: redirect('/stupidpowers/', permanent=True))
+    path('woti/stupidpowers/',
+         lambda request: redirect('/stupidpowers/', permanent=True)),
+    path('cycle15/', include('cycle15.urls'))
 ]
