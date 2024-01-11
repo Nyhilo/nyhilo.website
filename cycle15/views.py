@@ -1,14 +1,18 @@
 import base64
 import json
+import os
+
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, FileResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django import forms
 
 
 from .models import Sprite
+from .lib.c15image import overlay_sprites
 from nyhilosite.settings import env
+from nyhilosite.settings import C15_BASE_IMAGE, C15_GAMESTATE_IMAGE
 
 
 # VIEWS #
@@ -74,7 +78,21 @@ def saveSprites(request):
 
         sprite.save()
 
+    # Save the constructed image for the api
+    sprites = Sprite.objects.all()
+    overlay_sprites(C15_BASE_IMAGE, sprites)
+
     return HttpResponse(f'Saved {len(data)} sprite{"s" if len(data) > 1 else ""}.')
+
+
+# API
+def get_current_map(request):
+    try:
+        with open(C15_GAMESTATE_IMAGE, 'rb') as f:
+            return HttpResponse(f.read(), content_type="image/png")
+
+    except FileNotFoundError:
+        return JsonResponse({'error': 'Image not found'}, status=404)
 
 
 class SpriteForm(forms.Form):
