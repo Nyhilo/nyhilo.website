@@ -10,7 +10,7 @@ from django import forms
 
 
 from .models import Sprite
-from .lib.c15image import overlay_sprites
+from .c15image import overlay_sprites
 from nyhilosite.settings import env
 from nyhilosite.settings import C15_BASE_IMAGE, C15_GAMESTATE_IMAGE
 
