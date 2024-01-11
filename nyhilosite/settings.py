@@ -29,3 +29,8 @@ if current_environment == 'DEV':
     from .settings_dev import *
 elif current_environment == 'PROD':
     from .settings_prod import *
+
+
+C15_BASE_IMAGE = 'cycle15/static/cycle15/img/map_base.png'
+C15_GAMESTATE_IMAGE = 'cycle15/gamestate.png'
+C15_ARCHIVE_DIR = 'cycle15/archive/'

@@ -140,3 +140,7 @@ conf/
 
 ## Environment Settings ##
 nyhilosite/settings_prod.py
+
+# Cycle 15 image files/dirs
+cycle15/archive/*
+cycle15/gamestate*
