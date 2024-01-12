@@ -22,7 +22,7 @@ def index(request):
     return render(request, 'cycle15/index.html', {'sprites': Sprite.objects.all()})
 
 
-def sprite_upload(request):
+def upload_sprite_image(request):
     if request.method == 'GET':
         return render(request, 'cycle15/spriteupload.html')
 
