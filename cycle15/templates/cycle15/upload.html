@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}http://nyhilo.website/cycle15/
 
 <!DOCTYPE html>
 <html>
@@ -21,16 +21,20 @@
             <label for="username">Username:</label>
             <input type="text" id="username" name="Username" required><br><br>
 
-            <label for="xPosition">X Position:</label>
-            <input type="number" id="xPosition" name="x_position" required><br><br>
-
-            <label for="yPosition">Y Position:</label>
-            <input type="number" id="yPosition" name="y_position" required><br><br>
-
             <label for="fileUpload">File Upload:</label>
             <input type="file" id="fileUpload" name="file_upload" accept=".jpg, .jpeg, .png" required><br><br>
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Save Player Sprite">
+        </form>
+        <br />
+        <h2>Upload new map background</h2>
+        <form action="{% url 'upload_background_image' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="fileUpload">File Upload:</label>
+            <input type="file" id="fileUpload" name="file_upload" accept=".jpg, .jpeg, .png" required><br><br>
+
+            <input type="submit" value="Save Map Background">
         </form>
     </main>
 </body>

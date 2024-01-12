@@ -23,7 +23,7 @@
     <span id="response"></span>
     <script>
         const spritems = {}
-        mapBaseImg = "{% static 'cycle15/img/map_base.png' %}"
+        mapBaseImg = "{{ background.imageData }}";
         let spritesBase = [
         {% for sprite in sprites %}
             { user: '{{ sprite.user }}', x: {{ sprite.x }}, y: {{ sprite.y }}, image: (() => { const img = new Image(); img.src = "{{ sprite.image }}"; return img; })() },
