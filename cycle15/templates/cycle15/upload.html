@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Cycle 15 images Upload</title>
+    <meta name="description" content="Cycle 15 Images Upload">
+
+    <link rel="stylesheet" href="{% static 'cycle15/css/cycle15.css' %}"/>
+
+    {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1.0"/> {% endcomment %}
+</head>
+<body>
+    <main style='margin: 5rem;'>
+        <h2>Upload new player sprite</h2>
+        <form action="{% url 'upload_sprite_image' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="Username" required><br><br>
+
+            <label for="fileUpload">File Upload:</label>
+            <input type="file" id="fileUpload" name="file_upload" accept=".jpg, .jpeg, .png" required><br><br>
+
+            <input type="submit" value="Save Player Sprite">
+        </form>
+        <br />
+        <h2>Upload new map background</h2>
+        <form action="{% url 'upload_background_image' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="fileUpload">File Upload:</label>
+            <input type="file" id="fileUpload" name="file_upload" accept=".jpg, .jpeg, .png" required><br><br>
+
+            <input type="submit" value="Save Map Background">
+        </form>
+    </main>
+</body>
+</html>

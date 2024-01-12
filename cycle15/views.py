@@ -1,41 +1,43 @@
 import base64
 import json
-import os
+from datetime import datetime
 
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, FileResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django import forms
 
 
-from .models import Sprite
-from .c15image import overlay_sprites
+from .models import Sprite, MapBackground, GamestateMap
+from .c15image import generate_gamestate_map, get_gamestate_map
 from nyhilosite.settings import env
-from nyhilosite.settings import C15_BASE_IMAGE, C15_GAMESTATE_IMAGE
+from nyhilosite.settings import C15_GAMESTATE_IMAGE
 
 
 # VIEWS #
 @ensure_csrf_cookie
 def index(request):
-    # return HttpResponse('hewwow')
-    return render(request, 'cycle15/index.html', {'sprites': Sprite.objects.all()})
+    sprites = Sprite.objects.all()
+    background = MapBackground.objects.last()
+    return render(request, 'cycle15/index.html', {'background': background, 'sprites': sprites})
 
 
-def sprite_upload(request):
+def upload(request):
     if request.method == 'GET':
-        return render(request, 'cycle15/spriteupload.html')
+        return render(request, 'cycle15/upload.html')
 
+
+# POST
+def upload_sprite_image(request):
     if request.method == 'POST':
         form = SpriteForm(request.POST, request.FILES)
         if form.is_valid():
             username = form.cleaned_data['Username']
-            x_position = form.cleaned_data['x_position']
-            y_position = form.cleaned_data['y_position']
             file_upload = form.cleaned_data['file_upload']
 
             if Sprite.objects.filter(user=username).exists():
-                return render(request, 'cycle15/spriteupload.html')
+                return render(request, 'cycle15/upload.html')
 
             # Convert the uploaded file to base64
             encoded_file = None
@@ -50,17 +52,41 @@ def sprite_upload(request):
 
                 file_string = f'data:image/{extension};base64,{encoded_file}'
 
-            Sprite.objects.create(
-                user=username, x=x_position, y=y_position, image=file_string)
+            Sprite.objects.create(user=username, x=0, y=0, image=file_string)
 
-            # Redirect or render a success page
-            return render(request, 'cycle15/spriteupload.html')
-    else:
-        form = SpriteForm()
-    return render(request, 'cycle15/spriteupload.html', {})
+            # Redirect back to upload page
+            return render(request, 'cycle15/upload.html')
+
+    return render(request, 'cycle15/upload.html', {})
 
 
-# POST
+def upload_background_image(request):
+    if request.method == 'POST':
+        form = BackgroundForm(request.POST, request.FILES)
+        if form.is_valid():
+            file_upload = form.cleaned_data['file_upload']
+
+            # Convert the uploaded file to base64
+            encoded_file = None
+            if file_upload:
+                encoded_file = base64.b64encode(
+                    file_upload.read()).decode('utf-8')
+
+                extension = file_upload._name.split('.')[-1]
+
+                if extension not in ['png', 'jpg', 'jpeg', 'webp']:
+                    return HttpResponseBadRequest('Bad file extension. Use png, jpg, or webp')
+
+                file_string = f'data:image/{extension};base64,{encoded_file}'
+
+            MapBackground.objects.create(imageData=file_string, created=datetime.utcnow())
+
+            # Redirect back to upload page
+            return render(request, 'cycle15/upload.html')
+
+    return render(request, 'cycle15/upload.html', {})
+
+
 def saveSprites(request):
     # Validate the attributes
     data = json.loads(request.body)
@@ -79,24 +105,32 @@ def saveSprites(request):
         sprite.save()
 
     # Save the constructed image for the api
+    background = MapBackground.objects.last()
     sprites = Sprite.objects.all()
-    overlay_sprites(C15_BASE_IMAGE, sprites)
+    b64_string = generate_gamestate_map(background, sprites)
+    GamestateMap.objects.create(
+        filename=datetime.utcnow().strftime('%Y-%m-%d_%H%M%S'),
+        imageData=b64_string,
+        created=datetime.utcnow())
 
     return HttpResponse(f'Saved {len(data)} sprite{"s" if len(data) > 1 else ""}.')
 
 
 # API
 def get_current_map(request):
-    try:
-        with open(C15_GAMESTATE_IMAGE, 'rb') as f:
-            return HttpResponse(f.read(), content_type="image/png")
+    map = GamestateMap.objects.last()
+    image = get_gamestate_map(map)
 
-    except FileNotFoundError:
-        return JsonResponse({'error': 'Image not found'}, status=404)
+    response = HttpResponse(content_type="image/png")
+    image.save(response, 'PNG')
+
+    return response
 
 
 class SpriteForm(forms.Form):
     Username = forms.CharField(max_length=100)
-    x_position = forms.IntegerField()
-    y_position = forms.IntegerField()
+    file_upload = forms.FileField()
+
+
+class BackgroundForm(forms.Form):
     file_upload = forms.FileField()
