@@ -4,15 +4,15 @@ from datetime import datetime
 
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, FileResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django import forms
 
 
-from .models import Sprite, MapBackground
-from .c15image import overlay_sprites
+from .models import Sprite, MapBackground, GamestateMap
+from .c15image import generate_gamestate_map, get_gamestate_map
 from nyhilosite.settings import env
-from nyhilosite.settings import C15_BASE_IMAGE, C15_GAMESTATE_IMAGE
+from nyhilosite.settings import C15_GAMESTATE_IMAGE
 
 
 # VIEWS #
@@ -105,20 +105,26 @@ def saveSprites(request):
         sprite.save()
 
     # Save the constructed image for the api
+    background = MapBackground.objects.last()
     sprites = Sprite.objects.all()
-    overlay_sprites(C15_BASE_IMAGE, sprites)
+    b64_string = generate_gamestate_map(background, sprites)
+    GamestateMap.objects.create(
+        filename=datetime.utcnow().strftime('%Y-%m-%d_%H%M%S'),
+        imageData=b64_string,
+        created=datetime.utcnow())
 
     return HttpResponse(f'Saved {len(data)} sprite{"s" if len(data) > 1 else ""}.')
 
 
 # API
 def get_current_map(request):
-    try:
-        with open(C15_GAMESTATE_IMAGE, 'rb') as f:
-            return HttpResponse(f.read(), content_type="image/png")
+    map = GamestateMap.objects.last()
+    image = get_gamestate_map(map)
 
-    except FileNotFoundError:
-        return JsonResponse({'error': 'Image not found'}, status=404)
+    response = HttpResponse(content_type="image/png")
+    image.save(response, 'PNG')
+
+    return response
 
 
 class SpriteForm(forms.Form):
