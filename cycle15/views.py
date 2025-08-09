@@ -12,7 +12,6 @@ from django import forms
 from .models import Sprite, MapBackground, GamestateMap
 from .c15image import generate_gamestate_map, get_gamestate_map
 from nyhilosite.settings import env
-from nyhilosite.settings import C15_GAMESTATE_IMAGE
 
 
 # VIEWS #

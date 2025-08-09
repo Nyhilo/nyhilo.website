@@ -14,7 +14,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
     'stupidpowers.apps.StupidpowersConfig',
-    'cycle15.apps.Cycle15Config'
+    'cycle15.apps.Cycle15Config',
+    'cataphracts.apps.CataphractsConfig'
 ]
 
 MIDDLEWARE = [
