@@ -24,5 +24,6 @@ urlpatterns = [
     path('stupidpowers/', include('stupidpowers.urls')),
     path('woti/stupidpowers/',
          lambda request: redirect('/stupidpowers/', permanent=True)),
-    path('cycle15/', include('cycle15.urls'))
+    path('cycle15/', include('cycle15.urls')),
+    path('cataphracts/', include('cataphracts.urls')),
 ]
